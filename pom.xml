@@ -72,11 +72,13 @@ along with pragmatickm-password-renderer-html.  If not, see <http://www.gnu.org/
 									<link>${javac.link.javaeeApi.6}</link>
 									<link>https://aoindustries.com/ao-encoding/apidocs/</link>
 									<link>https://aoindustries.com/ao-io-buffer/apidocs/</link>
-									<link>https://aoindustries.com/ao-net-types/apidocs/</link>
+									<link>https://aoindustries.com/ao-lang/apidocs/</link>
+									<link>https://aoindustries.com/aocode-public/apidocs/</link>
 									<link>https://pragmatickm.com/password/model/apidocs/</link>
+									<link>https://semanticcms.com/core/controller/apidocs/</link>
 									<link>https://semanticcms.com/core/model/apidocs/</link>
 									<link>https://semanticcms.com/core/pages/apidocs/</link>
-									<link>https://semanticcms.com/core/pages/local/apidocs/</link>
+									<link>https://semanticcms.com/core/renderer/html/apidocs/</link>
 									<link>https://semanticcms.com/core/servlet/apidocs/</link>
 								</links>
 							</configuration>
@@ -95,12 +97,6 @@ along with pragmatickm-password-renderer-html.  If not, see <http://www.gnu.org/
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>javax.servlet.jsp-api</artifactId>
-			<version>2.2.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.aoindustries</groupId>
 			<artifactId>ao-encoding</artifactId>
 			<version>1.6.1-validation-SNAPSHOT</version>
@@ -112,13 +108,23 @@ along with pragmatickm-password-renderer-html.  If not, see <http://www.gnu.org/
 		</dependency>
 		<dependency>
 			<groupId>com.aoindustries</groupId>
-			<artifactId>ao-net-types</artifactId>
+			<artifactId>ao-lang</artifactId>
 			<version>1.1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.aoindustries</groupId>
+			<artifactId>aocode-public</artifactId>
+			<version>1.10.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.pragmatickm</groupId>
 			<artifactId>pragmatickm-password-model</artifactId>
 			<version>1.3.5-validation-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.semanticcms</groupId>
+			<artifactId>semanticcms-core-controller</artifactId>
+			<version>2.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.semanticcms</groupId>
@@ -132,12 +138,12 @@ along with pragmatickm-password-renderer-html.  If not, see <http://www.gnu.org/
 		</dependency>
 		<dependency>
 			<groupId>com.semanticcms</groupId>
-			<artifactId>semanticcms-core-pages-local</artifactId>
+			<artifactId>semanticcms-core-renderer-html</artifactId>
 			<version>2.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.semanticcms</groupId>
-			<artifactId>semanticcms-core-renderer-html</artifactId>
+			<artifactId>semanticcms-core-servlet</artifactId>
 			<version>2.0.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
