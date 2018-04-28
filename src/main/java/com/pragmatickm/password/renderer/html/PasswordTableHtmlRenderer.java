@@ -1,6 +1,6 @@
 /*
  * pragmatickm-password-renderer-html - Passwords rendered as HTML in a Servlet environment.
- * Copyright (C) 2013, 2014, 2015, 2016, 2017  AO Industries, Inc.
+ * Copyright (C) 2013, 2014, 2015, 2016, 2017, 2018  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -100,7 +100,22 @@ final public class PasswordTableHtmlRenderer {
 		if(hasUsername) colCount++;
 		if(hasSecretQuestion) colCount += 2;
 		// Print the table
-		out.write("<table class=\"thinTable passwordTable\"");
+		out.write("<table");
+		String id = passwordTable.getId();
+		if(id != null) {
+			final Page currentPage = passwordTable.getPage();
+			if(currentPage != null) {
+				out.write(" id=\"");
+				PageIndex.appendIdInPage(
+					pageIndex,
+					currentPage,
+					id,
+					new MediaWriter(textInXhtmlAttributeEncoder, out)
+				);
+				out.write('"');
+			}
+		}
+		out.write(" class=\"thinTable passwordTable\"");
 		if(style != null) {
 			out.write(" style=\"");
 			Coercion.write(style, textInXhtmlAttributeEncoder, out);
@@ -347,7 +362,7 @@ final public class PasswordTableHtmlRenderer {
 						out.write('"');
 					}
 					out.write("><span");
-					String id = password.getId();
+					id = password.getId();
 					if(id != null) {
 						final Page currentPage = passwordTable.getPage();
 						if(currentPage != null) {
