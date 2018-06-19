@@ -1,4 +1,4 @@
-# [<img src="ao-logo.png" alt="AO Logo" width="35" height="40">](https://aoindustries.com/) [PragmaticKM](https://pragmatickm.com/) / [Password](https://pragmatickm.com/password/) / [Renderer HTML](https://pragmatickm.com/password/renderer/html/)
+# [<img src="ao-logo.png" alt="AO Logo" width="35" height="40">](https://github.com/aoindustries) [PragmaticKM](https://github.com/aoindustries/pragmatickm) / [Password](https://github.com/aoindustries/pragmatickm-password) / [Renderer HTML](https://github.com/aoindustries/pragmatickm-password-renderer-html)
 <p>
 	<a href="https://aoindustries.com/life-cycle#project-alpha">
 		<img src="https://pragmatickm.com/ao-badges/project-alpha.svg" alt="project: alpha" />
@@ -24,7 +24,7 @@
 	</a>
 </p>
 
-[Passwords](https://pragmatickm.com/password/) rendered as HTML in a Servlet environment.
+[Passwords](https://github.com/aoindustries/pragmatickm-password) rendered as HTML in a Servlet environment.
 
 ## Project Links
 * [Project Home](https://pragmatickm.com/password/renderer/html/)
