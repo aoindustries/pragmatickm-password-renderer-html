@@ -1,6 +1,6 @@
 /*
  * pragmatickm-password-renderer-html - Passwords rendered as HTML in a Servlet environment.
- * Copyright (C) 2013, 2014, 2015, 2016, 2017, 2018  AO Industries, Inc.
+ * Copyright (C) 2013, 2014, 2015, 2016, 2017, 2018, 2019  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -28,7 +28,6 @@ import static com.aoindustries.encoding.TextInXhtmlAttributeEncoder.encodeTextIn
 import static com.aoindustries.encoding.TextInXhtmlAttributeEncoder.textInXhtmlAttributeEncoder;
 import static com.aoindustries.encoding.TextInXhtmlEncoder.encodeTextInXhtml;
 import com.aoindustries.io.buffer.BufferResult;
-import com.aoindustries.lang.ObjectUtils;
 import com.aoindustries.servlet.http.LastModifiedServlet;
 import com.pragmatickm.password.model.Password;
 import com.pragmatickm.password.model.PasswordTable;
@@ -53,6 +52,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -74,7 +74,7 @@ final public class PasswordTableHtmlRenderer {
 		HtmlRenderer htmlRenderer = HtmlRenderer.getInstance(servletContext);
 		PageIndex pageIndex = PageIndex.getCurrentPageIndex(request);
 		// Combine passwords from both attribute and body
-		List<Password> allPasswords = new ArrayList<Password>();
+		List<Password> allPasswords = new ArrayList<>();
 		if(passwords != null) {
 			for(Password password : passwords) allPasswords.add(password);
 		}
@@ -85,7 +85,7 @@ final public class PasswordTableHtmlRenderer {
 		final String responseEncoding = response.getCharacterEncoding();
 		// Find which columns need to be displayed
 		boolean hasHref = false;
-		Set<String> uniqueCustomFields = new LinkedHashSet<String>();
+		Set<String> uniqueCustomFields = new LinkedHashSet<>();
 		boolean hasUsername = false;
 		boolean hasSecretQuestion = false;
 		for(Password password : allPasswords) {
@@ -157,7 +157,7 @@ final public class PasswordTableHtmlRenderer {
 				+ "<tbody>\n");
 		// Group like custom values into rowspan
 		int hrefRowsLeft = 0;
-		Map<String,Integer> customValueRowsLeft = new HashMap<String,Integer>();
+		Map<String,Integer> customValueRowsLeft = new HashMap<>();
 		for(int pwIndex=0, pwSize=allPasswords.size(); pwIndex<pwSize; pwIndex++) {
 			Password password = allPasswords.get(pwIndex);
 			Map<String,String> securityQuestions = password.getSecretQuestions();
@@ -177,7 +177,7 @@ final public class PasswordTableHtmlRenderer {
 							for(int aheadIndex=pwIndex+1; aheadIndex<pwSize; aheadIndex++) {
 								Password aheadPw = allPasswords.get(aheadIndex);
 								String ahead = aheadPw.getHref();
-								if(ObjectUtils.equals(href, ahead)) {
+								if(Objects.equals(href, ahead)) {
 									hrefRowsLeft += Math.max(1, aheadPw.getSecretQuestions().size());
 								} else {
 									break;
@@ -217,7 +217,7 @@ final public class PasswordTableHtmlRenderer {
 							for(int aheadIndex=pwIndex+1; aheadIndex<pwSize; aheadIndex++) {
 								Password aheadPw = allPasswords.get(aheadIndex);
 								Password.CustomField ahead = aheadPw.getCustomFields().get(customField);
-								if(ObjectUtils.equals(value, ahead)) {
+								if(Objects.equals(value, ahead)) {
 									newRowsLeft += Math.max(1, aheadPw.getSecretQuestions().size());
 								} else {
 									break;
