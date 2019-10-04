@@ -276,8 +276,8 @@ final public class PasswordTableHtmlRenderer {
 													index,
 													null
 												),
-												out,
-												textInXhtmlAttributeEncoder
+												textInXhtmlAttributeEncoder,
+												out
 											);
 										} else {
 											encodeTextInXhtmlAttribute(
@@ -297,8 +297,8 @@ final public class PasswordTableHtmlRenderer {
 													index,
 													element
 												),
-												out,
-												textInXhtmlAttributeEncoder
+												textInXhtmlAttributeEncoder,
+												out
 											);
 										} else {
 											encodeTextInXhtmlAttribute(
