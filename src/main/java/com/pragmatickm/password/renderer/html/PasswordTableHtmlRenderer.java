@@ -268,53 +268,46 @@ final public class PasswordTableHtmlRenderer {
 									Integer index = pageIndex==null ? null : pageIndex.getPageIndex(pageRef);
 
 									out.write("<a href=\"");
+									StringBuilder href = new StringBuilder();
 									if(element == null) {
 										if(index != null) {
-											out.write('#');
+											href.append('#');
 											URIEncoder.encodeURIComponent(
 												PageIndex.getRefId(
 													index,
 													null
 												),
-												textInXhtmlAttributeEncoder,
-												out
+												href
 											);
 										} else {
-											encodeTextInXhtmlAttribute(
-												response.encodeURL(
-													URIEncoder.encodeURI(
-														request.getContextPath() + bookRef.getPrefix() + pageRef.getPath()
-													)
-												),
-												out
-											);
+											URIEncoder.encodeURI(request.getContextPath(), href);
+											URIEncoder.encodeURI(bookRef.getPrefix(), href);
+											URIEncoder.encodeURI(pageRef.getPath().toString(), href);
 										}
 									} else {
 										if(index != null) {
-											out.write('#');
+											href.append('#');
 											URIEncoder.encodeURIComponent(
 												PageIndex.getRefId(
 													index,
 													element
 												),
-												textInXhtmlAttributeEncoder,
-												out
+												href
 											);
 										} else {
-											encodeTextInXhtmlAttribute(
-												response.encodeURL(
-													URIEncoder.encodeURI(
-														request.getContextPath()
-														+ bookRef.getPrefix()
-														+ pageRef.getPath()
-														+ '#'
-														+ URIEncoder.encodeURIComponent(element)
-													)
-												),
-												out
-											);
+											URIEncoder.encodeURI(request.getContextPath(), href);
+											URIEncoder.encodeURI(bookRef.getPrefix(), href);
+											URIEncoder.encodeURI(pageRef.getPath().toString(), href);
+											href.append('#');
+											URIEncoder.encodeURIComponent(element, href);
 										}
 									}
+									encodeTextInXhtmlAttribute(
+										response.encodeURL(
+											href.toString()
+										),
+										out
+									);
 									out.write('"');
 									if(targetElement != null) {
 										String linkCssClass = htmlRenderer.getLinkCssClass(targetElement);
