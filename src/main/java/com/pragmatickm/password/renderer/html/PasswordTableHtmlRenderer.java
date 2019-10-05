@@ -193,7 +193,7 @@ final public class PasswordTableHtmlRenderer {
 							out.write('>');
 							if(href!=null) {
 								out.write("<a");
-								UrlUtils.writeHref(servletContext, request, response, out, href, null, false, LastModifiedServlet.AddLastModifiedWhen.FALSE);
+								UrlUtils.writeHref(servletContext, request, response, out, href, null, false, false, LastModifiedServlet.AddLastModifiedWhen.FALSE);
 								out.write(">");
 								encodeTextInXhtml(href, out);
 								out.write("</a>");
