@@ -1,6 +1,6 @@
 /*
  * pragmatickm-password-renderer-html - Passwords rendered as HTML in a Servlet environment.
- * Copyright (C) 2013, 2014, 2015, 2016, 2017, 2018, 2019  AO Industries, Inc.
+ * Copyright (C) 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -26,7 +26,7 @@ import com.aoindustries.encoding.Coercion;
 import com.aoindustries.encoding.MediaWriter;
 import static com.aoindustries.encoding.TextInXhtmlAttributeEncoder.encodeTextInXhtmlAttribute;
 import static com.aoindustries.encoding.TextInXhtmlAttributeEncoder.textInXhtmlAttributeEncoder;
-import static com.aoindustries.encoding.TextInXhtmlEncoder.encodeTextInXhtml;
+import com.aoindustries.html.Html;
 import com.aoindustries.io.buffer.BufferResult;
 import com.aoindustries.net.URIEncoder;
 import com.aoindustries.servlet.http.LastModifiedServlet;
@@ -46,7 +46,6 @@ import com.semanticcms.core.renderer.html.PageIndex;
 import com.semanticcms.core.renderer.html.UrlUtils;
 import com.semanticcms.core.servlet.ServletElementContext;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -66,7 +65,7 @@ final public class PasswordTableHtmlRenderer {
 		ServletContext servletContext,
 		HttpServletRequest request,
 		HttpServletResponse response,
-		Writer out,
+		Html html,
 		PasswordTable passwordTable,
 		Iterable<? extends Password> passwords,
 		Object style
@@ -100,61 +99,61 @@ final public class PasswordTableHtmlRenderer {
 		if(hasUsername) colCount++;
 		if(hasSecretQuestion) colCount += 2;
 		// Print the table
-		out.write("<table");
+		html.out.write("<table");
 		String id = passwordTable.getId();
 		if(id != null) {
 			final Page currentPage = passwordTable.getPage();
 			if(currentPage != null) {
-				out.write(" id=\"");
+				html.out.write(" id=\"");
 				PageIndex.appendIdInPage(
 					pageIndex,
 					currentPage,
 					id,
-					new MediaWriter(textInXhtmlAttributeEncoder, out)
+					new MediaWriter(textInXhtmlAttributeEncoder, html.out)
 				);
-				out.write('"');
+				html.out.write('"');
 			}
 		}
-		out.write(" class=\"thinTable passwordTable\"");
+		html.out.write(" class=\"thinTable passwordTable\"");
 		if(style != null) {
-			out.write(" style=\"");
-			Coercion.write(style, textInXhtmlAttributeEncoder, out);
-			out.write('"');
+			html.out.write(" style=\"");
+			Coercion.write(style, textInXhtmlAttributeEncoder, html.out);
+			html.out.write('"');
 		}
-		out.write(">\n"
-				+ "<thead>\n");
+		html.out.write(">\n"
+			+ "<thead>\n");
 		final String header = passwordTable.getHeader();
 		if(header != null) {
-			out.write("<tr>\n"
-					+ "<th class=\"passwordTableHeader\"");
+			html.out.write("<tr>\n"
+				+ "<th class=\"passwordTableHeader\"");
 			if(colCount>1) {
-				out.write(" colspan=\"");
-				encodeTextInXhtmlAttribute(Integer.toString(colCount), out);
-				out.write("\"");
+				html.out.write(" colspan=\"");
+				encodeTextInXhtmlAttribute(Integer.toString(colCount), html.out);
+				html.out.write('"');
 			}
-			out.write("><div>");
-			encodeTextInXhtml(header, out);
-			out.write("</div></th>\n"
-					+ "</tr>\n");
+			html.out.write("><div>");
+			html.text(header);
+			html.out.write("</div></th>\n"
+				+ "</tr>\n");
 		}
 		if(colCount>1) {
-			out.write("<tr>\n");
-			if(hasHref) out.write("<th>Site</th>\n");
+			html.out.write("<tr>\n");
+			if(hasHref) html.out.write("<th>Site</th>\n");
 			for(String customField : uniqueCustomFields) {
-				out.write("<th>");
-				encodeTextInXhtml(customField, out);
-				out.write("</th>\n");
+				html.out.write("<th>");
+				html.text(customField);
+				html.out.write("</th>\n");
 			}
-			if(hasUsername) out.write("<th>Username</th>\n");
-			out.write("<th>Password</th>\n");
+			if(hasUsername) html.out.write("<th>Username</th>\n");
+			html.out.write("<th>Password</th>\n");
 			if(hasSecretQuestion) {
-				out.write("<th>Secret Question</th>\n"
-						+ "<th>Secret Answer</th>\n");
+				html.out.write("<th>Secret Question</th>\n"
+					+ "<th>Secret Answer</th>\n");
 			}
-			out.write("</tr>\n");
+			html.out.write("</tr>\n");
 		}
-		out.write("</thead>\n"
-				+ "<tbody>\n");
+		html.out.write("</thead>\n"
+			+ "<tbody>\n");
 		// Group like custom values into rowspan
 		int hrefRowsLeft = 0;
 		Map<String,Integer> customValueRowsLeft = new HashMap<>();
@@ -164,7 +163,7 @@ final public class PasswordTableHtmlRenderer {
 			int rowSpan = securityQuestions.isEmpty() ? 1 : securityQuestions.size();
 			Iterator<Map.Entry<String,String>> securityQuestionIter = securityQuestions.entrySet().iterator();
 			for(int row=0; row<rowSpan; row++) {
-				out.write("<tr>\n");
+				html.out.write("<tr>\n");
 				if(row==0) {
 					if(hasHref) {
 						if(hrefRowsLeft>0) {
@@ -183,22 +182,22 @@ final public class PasswordTableHtmlRenderer {
 									break;
 								}
 							}
-							out.write("<td");
+							html.out.write("<td");
 							int totalRowSpan = rowSpan + hrefRowsLeft;
 							if(totalRowSpan>1) {
-								out.write(" rowspan=\"");
-								out.write(Integer.toString(totalRowSpan));
-								out.write('"');
+								html.out.write(" rowspan=\"");
+								encodeTextInXhtmlAttribute(Integer.toString(totalRowSpan), html.out);
+								html.out.write('"');
 							}
-							out.write('>');
+							html.out.write('>');
 							if(href!=null) {
-								out.write("<a");
-								UrlUtils.writeHref(servletContext, request, response, out, href, null, false, false, LastModifiedServlet.AddLastModifiedWhen.FALSE);
-								out.write(">");
-								encodeTextInXhtml(href, out);
-								out.write("</a>");
+								html.out.write("<a");
+								UrlUtils.writeHref(servletContext, request, response, html.out, href, null, false, false, LastModifiedServlet.AddLastModifiedWhen.FALSE);
+								html.out.write('>');
+								html.text(href);
+								html.out.write("</a>");
 							}
-							out.write("</td>\n");
+							html.out.write("</td>\n");
 						}
 					}
 					Map<String,Password.CustomField> customFields = password.getCustomFields();
@@ -229,14 +228,14 @@ final public class PasswordTableHtmlRenderer {
 									newRowsLeft
 								);
 							}
-							out.write("<td");
+							html.out.write("<td");
 							int totalRowSpan = rowSpan + newRowsLeft;
 							if(totalRowSpan>1) {
-								out.write(" rowspan=\"");
-								out.write(Integer.toString(totalRowSpan));
-								out.write('"');
+								html.out.write(" rowspan=\"");
+								encodeTextInXhtmlAttribute(Integer.toString(totalRowSpan), html.out);
+								html.out.write('"');
 							}
-							out.write('>');
+							html.out.write('>');
 							if(value!=null) {
 								final PageRef pageRef = value.getPageRef();
 								final String element = value.getElement();
@@ -267,7 +266,7 @@ final public class PasswordTableHtmlRenderer {
 
 									Integer index = pageIndex==null ? null : pageIndex.getPageIndex(pageRef);
 
-									out.write("<a href=\"");
+									html.out.write("<a href=\"");
 									StringBuilder href = new StringBuilder();
 									if(element == null) {
 										if(index != null) {
@@ -306,113 +305,113 @@ final public class PasswordTableHtmlRenderer {
 										response.encodeURL(
 											href.toString()
 										),
-										out
+										html.out
 									);
-									out.write('"');
+									html.out.write('"');
 									if(targetElement != null) {
 										String linkCssClass = htmlRenderer.getLinkCssClass(targetElement);
 										if(linkCssClass != null) {
-											out.write(" class=\"");
-											encodeTextInXhtmlAttribute(linkCssClass, out);
-											out.write('"');
+											html.out.write(" class=\"");
+											encodeTextInXhtmlAttribute(linkCssClass, html.out);
+											html.out.write('"');
 										}
 									}
-									out.write('>');
+									html.out.write('>');
 									if(value.getValue() != null) {
-										encodeTextInXhtml(value.getValue(), out);
+										html.text(value.getValue());
 									} else {
 										if(targetElement != null) {
-											encodeTextInXhtml(targetElement.getLabel(), out);
+											html.text(targetElement.getLabel());
 										} else if(targetPage != null) {
-											encodeTextInXhtml(targetPage.getTitle(), out);
+											html.text(targetPage.getTitle());
 										} else {
-											LinkRenderer.writeBrokenPathInXhtml(pageRef, out);
+											LinkRenderer.writeBrokenPathInXhtml(pageRef, html.out);
 										}
 									}
 									if(index != null) {
-										out.write("<sup>[");
-										encodeTextInXhtml(Integer.toString(index+1), out);
-										out.write("]</sup>");
+										html.out.write("<sup>[");
+										html.text(index + 1);
+										html.out.write("]</sup>");
 									}
-									out.write("</a>");
+									html.out.write("</a>");
 								} else {
-									encodeTextInXhtml(value.getValue(), out);
+									html.text(value.getValue());
 								}
 							}
-							out.write("</td>\n");
+							html.out.write("</td>\n");
 						}
 					}
 					if(hasUsername) {
-						out.write("<td");
+						html.out.write("<td");
 						if(rowSpan>1) {
-							out.write(" rowspan=\"");
-							out.write(Integer.toString(rowSpan));
-							out.write('"');
+							html.out.write(" rowspan=\"");
+							encodeTextInXhtmlAttribute(Integer.toString(rowSpan), html.out);
+							html.out.write('"');
 						}
-						out.write('>');
+						html.out.write('>');
 						String username = password.getUsername();
 						if(username!=null) {
-							encodeTextInXhtml(username, out);
+							html.text(username);
 						}
-						out.write("</td>\n");
+						html.out.write("</td>\n");
 					}
-					out.write("<td");
+					html.out.write("<td");
 					if(rowSpan>1) {
-						out.write(" rowspan=\"");
-						out.write(Integer.toString(rowSpan));
-						out.write('"');
+						html.out.write(" rowspan=\"");
+						encodeTextInXhtmlAttribute(Integer.toString(rowSpan), html.out);
+						html.out.write('"');
 					}
-					out.write("><span");
+					html.out.write("><span");
 					id = password.getId();
 					if(id != null) {
 						final Page currentPage = passwordTable.getPage();
 						if(currentPage != null) {
-							out.write(" id=\"");
+							html.out.write(" id=\"");
 							PageIndex.appendIdInPage(
 								pageIndex,
 								currentPage,
 								id,
-								new MediaWriter(textInXhtmlAttributeEncoder, out)
+								new MediaWriter(textInXhtmlAttributeEncoder, html.out)
 							);
-							out.write('"');
+							html.out.write('"');
 						}
 					}
 					String linkCssClass = htmlRenderer.getLinkCssClass(password);
 					if(linkCssClass != null) {
-						out.write(" class=\"");
-						encodeTextInXhtmlAttribute(linkCssClass, out);
-						out.write('"');
+						html.out.write(" class=\"");
+						encodeTextInXhtmlAttribute(linkCssClass, html.out);
+						html.out.write('"');
 					}
-					out.write('>');
-					encodeTextInXhtml(password.getPassword(), out);
-					out.write("</span></td>\n");
+					html.out.write('>');
+					html.text(password.getPassword());
+					html.out.write("</span></td>\n");
 				}
 				if(hasSecretQuestion) {
 					Map.Entry<String,String> entry = securityQuestionIter.hasNext() ? securityQuestionIter.next() : null;
-					out.write("<td>");
-					if(entry!=null) encodeTextInXhtml(entry.getKey(), out);
-					out.write("</td>\n"
-							+ "<td>");
-					if(entry!=null) encodeTextInXhtml(entry.getValue(), out);
-					out.write("</td>\n");
+					html.out.write("<td>");
+					if(entry!=null) html.text(entry.getKey());
+					html.out.write("</td>\n"
+						+ "<td>");
+					if(entry!=null) html.text(entry.getValue());
+					html.out.write("</td>\n");
 				}
-				out.write("</tr>\n");
+				html.out.write("</tr>\n");
 			}
 		}
 		BufferResult body = passwordTable.getBody();
 		if(body.getLength() > 0) {
-			out.write("<tr><td class=\"passwordTableBody\"");
+			html.out.write("<tr><td class=\"passwordTableBody\"");
 			if(colCount>1) {
-				out.write(" colspan=\"");
-				encodeTextInXhtmlAttribute(Integer.toString(colCount), out);
-				out.write("\"");
+				html.out.write(" colspan=\"");
+				encodeTextInXhtmlAttribute(Integer.toString(colCount), html.out);
+				html.out.write('"');
 			}
-			out.write('>');
-			body.writeTo(new NodeBodyWriter(passwordTable, out, new ServletElementContext(servletContext, request, response)));
-			out.write("</td></tr>\n");
+			html.out.write('>');
+			body.writeTo(new NodeBodyWriter(passwordTable, html.out, new ServletElementContext(servletContext, request, response)));
+			html.out.write("</td></tr>\n");
 		}
-		out.write("</tbody>\n"
-				+ "</table>");
+		html.out.write("</tbody>\n"
+			+ "</table>");
 	}
 
 	/**
