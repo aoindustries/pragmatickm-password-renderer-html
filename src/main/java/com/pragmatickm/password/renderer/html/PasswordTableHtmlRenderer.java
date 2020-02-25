@@ -28,8 +28,8 @@ import static com.aoindustries.encoding.TextInXhtmlAttributeEncoder.encodeTextIn
 import static com.aoindustries.encoding.TextInXhtmlAttributeEncoder.textInXhtmlAttributeEncoder;
 import com.aoindustries.html.Html;
 import com.aoindustries.io.buffer.BufferResult;
+import com.aoindustries.net.EmptyURIParameters;
 import com.aoindustries.net.URIEncoder;
-import com.aoindustries.servlet.http.LastModifiedServlet;
 import com.pragmatickm.password.model.Password;
 import com.pragmatickm.password.model.PasswordTable;
 import com.semanticcms.core.controller.CapturePage;
@@ -192,7 +192,7 @@ final public class PasswordTableHtmlRenderer {
 							html.out.write('>');
 							if(href!=null) {
 								html.out.write("<a");
-								UrlUtils.writeHref(servletContext, request, response, html.out, href, null, false, false, LastModifiedServlet.AddLastModifiedWhen.FALSE);
+								UrlUtils.writeHref(request, response, html.out, href, EmptyURIParameters.getInstance(), false, false);
 								html.out.write('>');
 								html.text(href);
 								html.out.write("</a>");
