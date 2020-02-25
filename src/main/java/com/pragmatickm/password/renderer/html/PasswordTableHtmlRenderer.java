@@ -114,7 +114,7 @@ final public class PasswordTableHtmlRenderer {
 				html.out.write('"');
 			}
 		}
-		html.out.write(" class=\"thinTable passwordTable\"");
+		html.out.write(" class=\"ao-grid passwordTable\"");
 		if(style != null) {
 			html.out.write(" style=\"");
 			Coercion.write(style, textInXhtmlAttributeEncoder, html.out);
