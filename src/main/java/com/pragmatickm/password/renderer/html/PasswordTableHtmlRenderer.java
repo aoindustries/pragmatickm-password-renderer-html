@@ -114,7 +114,7 @@ final public class PasswordTableHtmlRenderer {
 				html.out.write('"');
 			}
 		}
-		html.out.write(" class=\"ao-grid passwordTable\"");
+		html.out.write(" class=\"ao-grid pragmatickm-password\"");
 		if(style != null) {
 			html.out.write(" style=\"");
 			Coercion.write(style, textInXhtmlAttributeEncoder, html.out);
@@ -125,7 +125,7 @@ final public class PasswordTableHtmlRenderer {
 		final String header = passwordTable.getHeader();
 		if(header != null) {
 			html.out.write("<tr>\n"
-				+ "<th class=\"passwordTableHeader\"");
+				+ "<th class=\"pragmatickm-password-header\"");
 			if(colCount>1) {
 				html.out.write(" colspan=\"");
 				encodeTextInXhtmlAttribute(Integer.toString(colCount), html.out);
@@ -400,7 +400,7 @@ final public class PasswordTableHtmlRenderer {
 		}
 		BufferResult body = passwordTable.getBody();
 		if(body.getLength() > 0) {
-			html.out.write("<tr><td class=\"passwordTableBody\"");
+			html.out.write("<tr><td class=\"pragmatickm-password-body\"");
 			if(colCount>1) {
 				html.out.write(" colspan=\"");
 				encodeTextInXhtmlAttribute(Integer.toString(colCount), html.out);
