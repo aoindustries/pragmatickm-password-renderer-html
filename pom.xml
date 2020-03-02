@@ -74,7 +74,7 @@ along with pragmatickm-password-renderer-html.  If not, see <http://www.gnu.org/
 								<link>https://aoindustries.com/ao-fluent-html/apidocs/</link>
 								<link>https://aoindustries.com/ao-io-buffer/apidocs/</link>
 								<link>https://aoindustries.com/ao-net-types/apidocs/</link>
-								<!-- No apidocs: <groupId>com.aoindustries</groupId><artifactId>ao-style</artifactId> -->
+								<link>https://aoindustries.com/ao-style/apidocs/</link>
 								<link>https://pragmatickm.com/password/model/apidocs/</link>
 								<link>https://semanticcms.com/core/controller/apidocs/</link>
 								<link>https://semanticcms.com/core/model/apidocs/</link>
