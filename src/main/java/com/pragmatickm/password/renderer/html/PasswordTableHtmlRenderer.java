@@ -43,7 +43,6 @@ import com.semanticcms.core.pages.CaptureLevel;
 import com.semanticcms.core.renderer.html.HtmlRenderer;
 import com.semanticcms.core.renderer.html.LinkRenderer;
 import com.semanticcms.core.renderer.html.PageIndex;
-import com.semanticcms.core.renderer.html.UrlUtils;
 import com.semanticcms.core.servlet.ServletElementContext;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -192,7 +191,7 @@ final public class PasswordTableHtmlRenderer {
 							html.out.write('>');
 							if(href!=null) {
 								html.out.write("<a");
-								UrlUtils.writeHref(request, response, html.out, href, EmptyURIParameters.getInstance(), false, false);
+								LinkRenderer.writeHref(request, response, html.out, href, EmptyURIParameters.getInstance(), false, false);
 								html.out.write('>');
 								html.text(href);
 								html.out.write("</a>");
