@@ -53,6 +53,11 @@ along with pragmatickm-password-renderer-html.  If not, see <http://www.gnu.org/
 		<tag>HEAD</tag>
 	</scm>
 
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/aoindustries/pragmatickm-password-renderer-html/issues</url>
+	</issueManagement>
+
 	<profiles>
 		<profile>
 			<id>release</id>
