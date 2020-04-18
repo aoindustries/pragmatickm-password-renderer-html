@@ -74,7 +74,6 @@ along with pragmatickm-password-renderer-html.  If not, see <http://www.gnu.org/
 								<link>https://aoindustries.com/ao-fluent-html/apidocs/</link>
 								<link>https://aoindustries.com/ao-io-buffer/apidocs/</link>
 								<link>https://aoindustries.com/ao-net-types/apidocs/</link>
-								<link>https://aoindustries.com/ao-style/apidocs/</link>
 								<link>https://pragmatickm.com/password/model/apidocs/</link>
 								<link>https://semanticcms.com/core/controller/apidocs/</link>
 								<link>https://semanticcms.com/core/model/apidocs/</link>
@@ -111,9 +110,6 @@ along with pragmatickm-password-renderer-html.  If not, see <http://www.gnu.org/
 				<groupId>com.aoindustries</groupId><artifactId>ao-net-types</artifactId><version>1.2.1${POST-SNAPSHOT}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.aoindustries</groupId><artifactId>ao-style</artifactId><version>1.0.0${POST-SNAPSHOT}</version>
-			</dependency>
-			<dependency>
 				<groupId>com.pragmatickm</groupId><artifactId>pragmatickm-password-model</artifactId><version>2.0.0-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
 			</dependency>
 			<dependency>
@@ -130,6 +126,10 @@ along with pragmatickm-password-renderer-html.  If not, see <http://www.gnu.org/
 			</dependency>
 			<dependency>
 				<groupId>com.semanticcms</groupId><artifactId>semanticcms-core-servlet</artifactId><version>2.0.0-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
+			</dependency>
+			<!-- Runtime Direct -->
+			<dependency>
+				<groupId>com.aoindustries</groupId><artifactId>ao-style</artifactId><version>1.0.0${POST-SNAPSHOT}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -154,9 +154,6 @@ along with pragmatickm-password-renderer-html.  If not, see <http://www.gnu.org/
 			<groupId>com.aoindustries</groupId><artifactId>ao-net-types</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.aoindustries</groupId><artifactId>ao-style</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.pragmatickm</groupId><artifactId>pragmatickm-password-model</artifactId>
 		</dependency>
 		<dependency>
@@ -173,6 +170,11 @@ along with pragmatickm-password-renderer-html.  If not, see <http://www.gnu.org/
 		</dependency>
 		<dependency>
 			<groupId>com.semanticcms</groupId><artifactId>semanticcms-core-servlet</artifactId>
+		</dependency>
+		<!-- Runtime Direct -->
+		<dependency>
+			<groupId>com.aoindustries</groupId><artifactId>ao-style</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 </project>
