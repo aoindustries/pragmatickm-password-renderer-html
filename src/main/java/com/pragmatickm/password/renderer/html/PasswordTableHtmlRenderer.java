@@ -28,7 +28,6 @@ import static com.aoindustries.encoding.TextInXhtmlAttributeEncoder.encodeTextIn
 import static com.aoindustries.encoding.TextInXhtmlAttributeEncoder.textInXhtmlAttributeEncoder;
 import com.aoindustries.html.Html;
 import com.aoindustries.io.buffer.BufferResult;
-import com.aoindustries.net.EmptyURIParameters;
 import com.aoindustries.net.URIEncoder;
 import com.pragmatickm.password.model.Password;
 import com.pragmatickm.password.model.PasswordTable;
@@ -103,17 +102,14 @@ final public class PasswordTableHtmlRenderer {
 		html.out.write("<table");
 		String id = passwordTable.getId();
 		if(id != null) {
-			final Page currentPage = passwordTable.getPage();
-			if(currentPage != null) {
-				html.out.write(" id=\"");
-				PageIndex.appendIdInPage(
-					pageIndex,
-					currentPage,
-					id,
-					new MediaWriter(html.encodingContext, textInXhtmlAttributeEncoder, html.out)
-				);
-				html.out.write('"');
-			}
+			html.out.write(" id=\"");
+			PageIndex.appendIdInPage(
+				pageIndex,
+				passwordTable.getPage(),
+				id,
+				new MediaWriter(html.encodingContext, textInXhtmlAttributeEncoder, html.out)
+			);
+			html.out.write('"');
 		}
 		html.out.write(" class=\"ao-grid pragmatickm-password\"");
 		if(style != null) {
@@ -139,13 +135,17 @@ final public class PasswordTableHtmlRenderer {
 		}
 		if(colCount>1) {
 			html.out.write("<tr>\n");
-			if(hasHref) html.out.write("<th>Site</th>\n");
+			if(hasHref) {
+				html.out.write("<th>Site</th>\n");
+			}
 			for(String customField : uniqueCustomFields) {
 				html.out.write("<th>");
 				html.text(customField);
 				html.out.write("</th>\n");
 			}
-			if(hasUsername) html.out.write("<th>Username</th>\n");
+			if(hasUsername) {
+				html.out.write("<th>Username</th>\n");
+			}
 			html.out.write("<th>Password</th>\n");
 			if(hasSecretQuestion) {
 				html.out.write("<th>Secret Question</th>\n"
@@ -193,7 +193,7 @@ final public class PasswordTableHtmlRenderer {
 							html.out.write('>');
 							if(href!=null) {
 								html.out.write("<a");
-								LinkRenderer.writeHref(request, response, html.out, href, EmptyURIParameters.getInstance(), false, false);
+								LinkRenderer.writeHref(request, response, html.out, href, null, false, false);
 								html.out.write('>');
 								html.text(href);
 								html.out.write("</a>");
@@ -365,17 +365,14 @@ final public class PasswordTableHtmlRenderer {
 					html.out.write("><span");
 					id = password.getId();
 					if(id != null) {
-						final Page currentPage = passwordTable.getPage();
-						if(currentPage != null) {
-							html.out.write(" id=\"");
-							PageIndex.appendIdInPage(
-								pageIndex,
-								currentPage,
-								id,
-								new MediaWriter(html.encodingContext, textInXhtmlAttributeEncoder, html.out)
-							);
-							html.out.write('"');
-						}
+						html.out.write(" id=\"");
+						PageIndex.appendIdInPage(
+							pageIndex,
+							passwordTable.getPage(),
+							id,
+							new MediaWriter(html.encodingContext, textInXhtmlAttributeEncoder, html.out)
+						);
+						html.out.write('"');
 					}
 					String linkCssClass = htmlRenderer.getLinkCssClass(password);
 					if(linkCssClass != null) {
