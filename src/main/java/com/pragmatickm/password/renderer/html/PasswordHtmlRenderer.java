@@ -1,6 +1,6 @@
 /*
  * pragmatickm-password-renderer-html - Passwords rendered as HTML in a Servlet environment.
- * Copyright (C) 2013, 2014, 2015, 2016, 2017, 2020  AO Industries, Inc.
+ * Copyright (C) 2013, 2014, 2015, 2016, 2017, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -25,7 +25,7 @@ package com.pragmatickm.password.renderer.html;
 import com.aoindustries.encoding.MediaWriter;
 import static com.aoindustries.encoding.TextInXhtmlAttributeEncoder.encodeTextInXhtmlAttribute;
 import static com.aoindustries.encoding.TextInXhtmlAttributeEncoder.textInXhtmlAttributeEncoder;
-import com.aoindustries.html.Html;
+import com.aoindustries.html.Document;
 import com.pragmatickm.password.model.Password;
 import com.semanticcms.core.model.ElementContext;
 import com.semanticcms.core.renderer.html.HtmlRenderer;
@@ -37,31 +37,31 @@ final public class PasswordHtmlRenderer {
 	public static void writePassword(
 		HtmlRenderer htmlRenderer,
 		PageIndex pageIndex,
-		Html html,
+		Document document,
 		ElementContext context,
 		Password password
 	) throws IOException {
-		html.out.write("<span");
+		document.out.write("<span");
 		String id = password.getId();
 		if(id != null) {
-			html.out.write(" id=\"");
+			document.out.write(" id=\"");
 			PageIndex.appendIdInPage(
 				pageIndex,
 				password.getPage(),
 				id,
-				new MediaWriter(html.encodingContext, textInXhtmlAttributeEncoder, html.out)
+				new MediaWriter(document.encodingContext, textInXhtmlAttributeEncoder, document.out)
 			);
-			html.out.write('"');
+			document.out.write('"');
 		}
 		String linkCssClass = htmlRenderer.getLinkCssClass(password);
 		if(linkCssClass != null) {
-			html.out.write(" class=\"");
-			encodeTextInXhtmlAttribute(linkCssClass, html.out);
-			html.out.write('"');
+			document.out.write(" class=\"");
+			encodeTextInXhtmlAttribute(linkCssClass, document.out);
+			document.out.write('"');
 		}
-		html.out.write('>');
-		html.text(password.getPassword());
-		html.out.write("</span>");
+		document.out.write('>');
+		document.text(password.getPassword());
+		document.out.write("</span>");
 	}
 
 	/**
