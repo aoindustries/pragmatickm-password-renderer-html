@@ -22,10 +22,7 @@
  */
 package com.pragmatickm.password.renderer.html;
 
-import com.aoindustries.encoding.MediaWriter;
-import static com.aoindustries.encoding.TextInXhtmlAttributeEncoder.encodeTextInXhtmlAttribute;
-import static com.aoindustries.encoding.TextInXhtmlAttributeEncoder.textInXhtmlAttributeEncoder;
-import com.aoindustries.html.Document;
+import com.aoindustries.html.Union_Palpable_Phrasing;
 import com.pragmatickm.password.model.Password;
 import com.semanticcms.core.model.ElementContext;
 import com.semanticcms.core.renderer.html.HtmlRenderer;
@@ -34,34 +31,23 @@ import java.io.IOException;
 
 final public class PasswordHtmlRenderer {
 
-	public static void writePassword(
+	public static <__ extends Union_Palpable_Phrasing<__>> void writePassword(
 		HtmlRenderer htmlRenderer,
 		PageIndex pageIndex,
-		Document document,
+		__ content,
 		ElementContext context,
 		Password password
 	) throws IOException {
-		document.out.write("<span");
 		String id = password.getId();
-		if(id != null) {
-			document.out.write(" id=\"");
-			PageIndex.appendIdInPage(
+		content.span()
+			.id((id == null) ? null : idAttr -> PageIndex.appendIdInPage(
 				pageIndex,
 				password.getPage(),
 				id,
-				new MediaWriter(document.encodingContext, textInXhtmlAttributeEncoder, document.out)
-			);
-			document.out.write('"');
-		}
-		String linkCssClass = htmlRenderer.getLinkCssClass(password);
-		if(linkCssClass != null) {
-			document.out.write(" class=\"");
-			encodeTextInXhtmlAttribute(linkCssClass, document.out);
-			document.out.write('"');
-		}
-		document.out.write('>');
-		document.text(password.getPassword());
-		document.out.write("</span>");
+				idAttr
+			))
+			.clazz(htmlRenderer.getLinkCssClass(password))
+		.__(password.getPassword());
 	}
 
 	/**
