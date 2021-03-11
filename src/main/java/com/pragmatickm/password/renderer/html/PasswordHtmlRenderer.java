@@ -22,6 +22,7 @@
  */
 package com.pragmatickm.password.renderer.html;
 
+import com.aoindustries.html.AnyDocument;
 import com.aoindustries.html.Union_Palpable_Phrasing;
 import com.pragmatickm.password.model.Password;
 import com.semanticcms.core.model.ElementContext;
@@ -31,7 +32,10 @@ import java.io.IOException;
 
 final public class PasswordHtmlRenderer {
 
-	public static <__ extends Union_Palpable_Phrasing<__>> void writePassword(
+	public static <
+		D extends AnyDocument<D>,
+		__ extends Union_Palpable_Phrasing<D, __>
+	> void writePassword(
 		HtmlRenderer htmlRenderer,
 		PageIndex pageIndex,
 		__ content,
