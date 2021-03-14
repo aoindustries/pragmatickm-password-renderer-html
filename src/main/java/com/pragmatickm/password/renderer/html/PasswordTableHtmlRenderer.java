@@ -22,13 +22,13 @@
  */
 package com.pragmatickm.password.renderer.html;
 
-import com.aoindustries.html.AnyDocument;
-import com.aoindustries.html.PalpableContent;
-import com.aoindustries.html.TABLE_c;
-import com.aoindustries.html.TBODY_c;
-import com.aoindustries.html.TD_c;
-import com.aoindustries.html.THEAD_c;
-import com.aoindustries.html.TR_c;
+import com.aoindustries.html.any.AnyDocument;
+import com.aoindustries.html.any.AnyPalpableContent;
+import com.aoindustries.html.any.AnyTABLE_c;
+import com.aoindustries.html.any.AnyTBODY_c;
+import com.aoindustries.html.any.AnyTD_c;
+import com.aoindustries.html.any.AnyTHEAD_c;
+import com.aoindustries.html.any.AnyTR_c;
 import com.aoindustries.io.buffer.BufferResult;
 import com.aoindustries.net.URIEncoder;
 import com.aoindustries.servlet.http.HttpServletUtil;
@@ -64,7 +64,7 @@ final public class PasswordTableHtmlRenderer {
 
 	public static <
 		D extends AnyDocument<D>,
-		__ extends PalpableContent<D, __>
+		__ extends AnyPalpableContent<D, __>
 	> void writePasswordTable(
 		ServletContext servletContext,
 		HttpServletRequest request,
@@ -107,7 +107,7 @@ final public class PasswordTableHtmlRenderer {
 		// Print the table
 		String id = passwordTable.getId();
 		try (
-			TABLE_c<D, __> table = content.table()
+			AnyTABLE_c<D, __, ?> table = content.table()
 				.id((id == null) ? null : idAttr -> PageIndex.appendIdInPage(
 					pageIndex,
 					passwordTable.getPage(),
@@ -118,18 +118,18 @@ final public class PasswordTableHtmlRenderer {
 				.style(style)
 			._c()
 		) {
-			try (THEAD_c<D, TABLE_c<D, __>> thead = table.thead_c()) {
+			try (AnyTHEAD_c<D, ?, ?> thead = table.thead_c()) {
 				assert colCount >= 1;
 				final String header = passwordTable.getHeader();
 				if(header != null) {
-					try (TR_c<D, THEAD_c<D, TABLE_c<D, __>>> tr = thead.tr_c()) {
+					try (AnyTR_c<D, ?, ?> tr = thead.tr_c()) {
 						tr.th().clazz("pragmatickm-password-header").colspan(colCount).__(th -> th
 							.div__(header)
 						);
 					}
 				}
 				if(colCount > 1) {
-					try (TR_c<D, THEAD_c<D, TABLE_c<D, __>>> tr = thead.tr_c()) {
+					try (AnyTR_c<D, ?, ?> tr = thead.tr_c()) {
 						if(hasHref) {
 							tr.th__("Site");
 						}
@@ -147,7 +147,7 @@ final public class PasswordTableHtmlRenderer {
 					}
 				}
 			}
-			try (TBODY_c<D, TABLE_c<D, __>> tbody = table.tbody_c()) {
+			try (AnyTBODY_c<D, ?, ?> tbody = table.tbody_c()) {
 				// Group like custom values into rowspan
 				int hrefRowsLeft = 0;
 				Map<String, Integer> customValueRowsLeft = new HashMap<>();
@@ -157,7 +157,7 @@ final public class PasswordTableHtmlRenderer {
 					int rowSpan = securityQuestions.isEmpty() ? 1 : securityQuestions.size();
 					Iterator<Map.Entry<String, String>> securityQuestionIter = securityQuestions.entrySet().iterator();
 					for(int row = 0; row < rowSpan; row++) {
-						try(TR_c<D, TBODY_c<D, TABLE_c<D, __>>> tr = tbody.tr_c()) {
+						try(AnyTR_c<D, ?, ?> tr = tbody.tr_c()) {
 							if(row == 0) {
 								if(hasHref) {
 									if(hrefRowsLeft>0) {
@@ -178,7 +178,7 @@ final public class PasswordTableHtmlRenderer {
 										}
 										int totalRowSpan = rowSpan + hrefRowsLeft;
 										assert totalRowSpan >= 1;
-										try (TD_c<D, TR_c<D, TBODY_c<D, TABLE_c<D, __>>>> td = tr.td().rowspan(totalRowSpan)._c()) {
+										try (AnyTD_c<D, ?, ?> td = tr.td().rowspan(totalRowSpan)._c()) {
 											if(href != null) {
 												td.a(HttpServletUtil.buildURL(request, response, href, null, false, false)).__(href);
 											}
@@ -296,7 +296,7 @@ final public class PasswordTableHtmlRenderer {
 															}
 														}
 														if(index != null) {
-															a.sup__(sup -> sup
+															a.sup__any(sup -> sup
 																.text('[').text(index + 1).text(']')
 															);
 														}
@@ -336,9 +336,9 @@ final public class PasswordTableHtmlRenderer {
 				BufferResult body = passwordTable.getBody();
 				if(body.getLength() > 0) {
 					assert colCount >= 1;
-					try (TR_c<D, TBODY_c<D, TABLE_c<D, __>>> tr = tbody.tr_c()) {
+					try (AnyTR_c<D, ?, ?> tr = tbody.tr_c()) {
 						tr.td().clazz("pragmatickm-password-body").colspan(colCount).__(td ->
-							body.writeTo(new NodeBodyWriter(passwordTable, td.getDocument().out, new ServletElementContext(servletContext, request, response)))
+							body.writeTo(new NodeBodyWriter(passwordTable, td.getDocument().getUnsafe(), new ServletElementContext(servletContext, request, response)))
 						);
 					}
 				}
