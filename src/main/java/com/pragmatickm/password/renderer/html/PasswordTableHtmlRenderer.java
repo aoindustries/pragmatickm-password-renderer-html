@@ -334,7 +334,7 @@ final public class PasswordTableHtmlRenderer {
 					assert colCount >= 1;
 					try (AnyTR_c<?, ?, ?> tr = tbody.tr_c()) {
 						tr.td().clazz("pragmatickm-password-body").colspan(colCount).__(td ->
-							body.writeTo(new NodeBodyWriter(passwordTable, td.getDocument().getUnsafe(), new ServletElementContext(servletContext, request, response)))
+							body.writeTo(new NodeBodyWriter(passwordTable, td.getUnsafe(), new ServletElementContext(servletContext, request, response)))
 						);
 					}
 				}
