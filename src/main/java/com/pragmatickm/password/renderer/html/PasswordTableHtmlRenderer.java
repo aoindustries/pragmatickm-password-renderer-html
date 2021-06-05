@@ -22,15 +22,15 @@
  */
 package com.pragmatickm.password.renderer.html;
 
-import com.aoindustries.html.any.AnyPalpableContent;
-import com.aoindustries.html.any.AnyTABLE_c;
-import com.aoindustries.html.any.AnyTBODY_c;
-import com.aoindustries.html.any.AnyTD_c;
-import com.aoindustries.html.any.AnyTHEAD_c;
-import com.aoindustries.html.any.AnyTR_c;
-import com.aoindustries.io.buffer.BufferResult;
-import com.aoindustries.net.URIEncoder;
-import com.aoindustries.servlet.http.HttpServletUtil;
+import com.aoapps.html.any.AnyPalpableContent;
+import com.aoapps.html.any.AnyTABLE_c;
+import com.aoapps.html.any.AnyTBODY_c;
+import com.aoapps.html.any.AnyTD_c;
+import com.aoapps.html.any.AnyTHEAD_c;
+import com.aoapps.html.any.AnyTR_c;
+import com.aoapps.io.buffer.BufferResult;
+import com.aoapps.net.URIEncoder;
+import com.aoapps.servlet.http.HttpServletUtil;
 import com.pragmatickm.password.model.Password;
 import com.pragmatickm.password.model.PasswordTable;
 import com.semanticcms.core.controller.CapturePage;
